@@ -21,9 +21,15 @@
 		
 			public function moveRight(): void {
 				xAccel += .5;
+				if(xAccel < 0){
+					xAccel += .25;
+				}
 			}
 			public function moveLeft(): void {
 				xAccel -= .5;
+				if(xAccel > 0){
+					xAccel -= .25;
+				}
 			}
 		
 			public function moveUp(): void {
@@ -38,12 +44,14 @@
 				{
 					yAccel = -6;
 				}
+				yAccel = -6;
 			}
 			
 			public function moveDown(): void {
 				
 			}
 			public function movement(): void {
+				trace(x, y);
 				var xMove:Number = xAccel * (60/main.stage.frameRate);
 				var yMove:Number = yAccel * (60/main.stage.frameRate);
 				//absolute max movement x
@@ -109,15 +117,6 @@
 				if(yAccel > 14)
 				{
 					yAccel = 14;
-				}
-				//bottom of platform
-				if(this.y > 400 - this.height)
-				{
-					this.y = 400 - this.height;
-					yAccel = 0;
-					inAir = false;
-					doubleJump = false;
-					
 				}
 				//top of screen
 				if(this.y < 0)

@@ -25,16 +25,6 @@
 			
 			platforms = new Array();
 			
-			//comment or delete once we get xml file
-			for(var i:uint = 0; i < 30; i++)
-			{
-				var platform:Platform = new Platform();
-				platform.x = Math.random() * stage.stageWidth;
-				platform.y = Math.random() * stage.stageHeight;
-				addChild(platform);
-				platforms.push(platform);
-			}
-			
 			box = new Box(this);
 			addChild(box);
 			box.x = 250;
@@ -42,9 +32,9 @@
 			
 			//uncomment to set up loading xml file
 			
-			//var xmlPath = "xml/level.xml";
-			//var xmlReq = new URLRequest(xmlPath);
-			//ldr.addEventListener(Event.COMPLETE, xmlComplete);
+			var xmlPath = "xml/level1.xml";
+			var xmlReq = new URLRequest(xmlPath);
+			ldr.addEventListener(Event.COMPLETE, xmlComplete);
 			
 			stage.addEventListener(Event.ENTER_FRAME, onFrame);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPressed);
@@ -52,14 +42,14 @@
 			
 			//uncomment to load xml file
 			
-			//ldr.load(xmlReq);
+			ldr.load(xmlReq);
 		}
 		//think this is all set for when we test an xml file
 		private function xmlComplete(e:Event):void {
 			ldr.removeEventListener(Event.COMPLETE, xmlComplete);
 			var myXML:XML = new XML( e.target.data );
 			// myXML is effectively references the <gallery> tag
-			for each (var platform:XML in myXML.platforms) 
+			for each (var platform:XML in myXML.platform) 
 			{
 				var _platform:Platform = new Platform;
 				_platform.x = platform.x;
@@ -67,6 +57,12 @@
 				_platform.height = platform.height;
 				_platform.width = platform.width;
 				platforms.push(_platform);
+			}
+			box.x = myXML.startPosition.x;
+			box.y = myXML.startPosition.y;
+			for each (var p:Platform in platforms)
+			{
+				addChild(p);
 			}
 		}
 		
@@ -141,16 +137,18 @@
 				//are you close to one of the sides, or to the top or bottom? (p.height / p.width) is a ratio for platform size
 				//Horizontal
 				if (Math.abs(dx) * (platform.height / platform.width) > Math.abs(dy)) {
-					
-					//left side
-					if (dx < 0) {
-						box.x = platform.x - box.width - .5;
+					//this qualifier allows to run on top of platforms placed right next to each other
+					if(box.prevY >= (platform.y - box.height + 2)) {
+						//left side
+						if (dx < 0) {
+							box.x = platform.x - box.width - .5;
+						}
+						//right side
+						else {
+							box.x = platform.x + platform.width;
+						}
+						box.xAccel = 0;
 					}
-					//right side
-					else {
-						box.x = platform.x + platform.width;
-					}
-					box.xAccel = 0;
 				}
 				//Vertical
 				else {
@@ -162,7 +160,7 @@
 					}
 					//bottom
 					else {
-						box.y = platform.y + platform.height + .5;
+						box.y = platform.y + platform.height + 1;
 					}
 					box.yAccel = 0;
 				}
