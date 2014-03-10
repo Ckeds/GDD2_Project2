@@ -51,7 +51,7 @@
 				
 			}
 			public function movement(): void {
-				trace(x, y);
+				//trace(x, y);
 				var xMove:Number = xAccel * (60/main.stage.frameRate);
 				var yMove:Number = yAccel * (60/main.stage.frameRate);
 				//absolute max movement x
@@ -123,6 +123,11 @@
 				{
 					this.y = 0;
 					yAccel = 0;
+				}
+				if(this.x < 0)
+				{
+					this.x = 0;
+					xAccel = 0;
 				}
 			}
 	}

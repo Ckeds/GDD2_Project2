@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<platforms>
+<level>
 	<platform>
 		<x>0</x>
 		<y>0</y>
@@ -122,13 +122,13 @@
 	<platform>
 		<x>99</x>
 		<y>126</y>
-		<width>56</width>
+		<width>40</width>
 		<height>16</height>
 		<type>platform</type>
 	</platform>
 	<platform>
 		<x>138</x>
-		<y>139</y>
+		<y>126</y>
 		<width>17</width>
 		<height>44</height>
 		<type>platform</type>
@@ -396,4 +396,4 @@
 		<x>22</x>
 		<y>425</y>
 	</startPosition>
-</platforms>
+</level>
